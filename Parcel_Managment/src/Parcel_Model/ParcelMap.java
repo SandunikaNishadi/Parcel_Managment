@@ -1,8 +1,9 @@
 package Parcel_Model;
 
+import java.util.Collection;
 import java.util.HashMap;
-
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 public class ParcelMap {
     private Map<String, Parcel> parcelMap;

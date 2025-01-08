@@ -2,23 +2,28 @@ package Parcel_Model;
 
 import java.util.*;
 
+
+
 public class QueueOfCustomers {
-    private List<Customer> customers;
+    private LinkedList<Customer> queue;
 
     public QueueOfCustomers() {
-        customers = new ArrayList<>();
+        queue = new LinkedList<>();
     }
 
-    // Add a customer to the queue
     public void enqueue(Customer customer) {
-        customers.add(customer);
+        queue.addLast(customer);
     }
 
-    // Get all customers in the queue
+    public Customer dequeue() {
+        return queue.isEmpty() ? null : queue.removeFirst();
+    }
+
     public List<Customer> getAllCustomers() {
-        return customers;
+        return queue;
     }
 
-    
-    
+    public int size() {
+        return queue.size();
+    }
 }
