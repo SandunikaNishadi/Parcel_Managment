@@ -9,16 +9,16 @@ public class QueueOfCustomers {
         customers = new ArrayList<>();
     }
 
-    public void addCustomer(Customer customer) {
+    // Add a customer to the queue
+    public void enqueue(Customer customer) {
         customers.add(customer);
     }
 
-    public Customer findCustomerByName(String name) {
-        for (Customer customer : customers) {
-            if (customer.getName().equalsIgnoreCase(name)) {
-                return customer;
-            }
-        }
-        return null;
+    // Get all customers in the queue
+    public List<Customer> getAllCustomers() {
+        return customers;
     }
+
+    
+    
 }
