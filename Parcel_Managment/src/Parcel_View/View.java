@@ -29,7 +29,8 @@ public class View {
     private JButton loadParcelsButton; // Declare the button
     private JButton ProcessButton;
     private JTextField ParcelIdfield;
-    
+    private JTextField removecustomer;
+    private JButton removecustomerButton;
     private JButton loadCustomersButton;
     private JButton processedParcelsButton;
     
@@ -86,7 +87,13 @@ public class View {
         daysInDepotField = new JTextField();
         parcelPanel.add(daysInDepotField);
 
-       
+        parcelPanel.add(new JLabel("To process Parcel Enter parcel ID:"));
+        ParcelIdfield = new JTextField();
+        parcelPanel.add(ParcelIdfield);
+
+        parcelPanel.add(new JLabel("Enter ID to remove customer:"));
+        removecustomer = new JTextField();
+        parcelPanel.add(removecustomer);
 
         
 
@@ -153,7 +160,9 @@ public class View {
     public JButton getProcessedParcelsButton() {
         return processedParcelsButton;
     }
-    
+    public JTextField getParcelIdCustomerField() {
+        return parcelIdCustomerField;
+    }
 
     public JButton getAddCustomerButton() {
         return addCustomerButton;
@@ -183,7 +192,10 @@ public class View {
         return daysInDepotField;
     }
 
-   
+    public JTextField getRemovecustomer() {
+        return removecustomer;
+    }
+
     public JButton getAddParcelButton() {
         return addParcelButton;
     }
@@ -203,7 +215,9 @@ public class View {
         return ProcessButton;
     }
 
-    
+    public JButton getRemoveCustomerButton() {
+        return removecustomerButton;
+    }
 
     // Method to set the data for the JList (parcel data)
     public void setParcelListData(List<String> parcels) {

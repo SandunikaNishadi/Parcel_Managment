@@ -2,6 +2,8 @@ package Parcel_Controller;
 
 
 
+
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -9,11 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-
 import Parcel_Model.Manager;
 import Parcel_View.View;
-
-
 
 public class Controller {
     private View view;
@@ -59,7 +58,12 @@ public class Controller {
                 addParcel();
             }
         });
-        
+        this.view.getSortByDaysInDepotButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sortParcelsByDaysInDepot();
+            }
+        });
         // Add action listener to the load Parcels button
         this.view.getLoadParcelsButton().addActionListener(new ActionListener() {
             @Override
@@ -76,7 +80,13 @@ public class Controller {
             }
         });
 
-       
+        // Add action listener to the Remove Customer button
+        this.view.getRemoveCustomerButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeCustomer();
+            }
+        });
     }
 
     // Method to handle the loadParcels button action
@@ -93,8 +103,18 @@ public class Controller {
         }
     }
 
-   
-    
+    private void sortParcelsByDaysInDepot() {
+        try {
+            List<Parcel> sortedParcels = manager.getParcelsSortedByDaysInDepot("parcel.txt"); // Get sorted parcels
+            List<String> parcelDetails = new ArrayList<>();
+            for (Parcel parcel : sortedParcels) {
+                parcelDetails.add(parcel.toString()); // Convert parcels to string representation
+            }
+            view.setParcelListData(parcelDetails); // Update the left-side list in the GUI
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(view.getFrame(), "Error loading or sorting parcels: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     // Method to handle the loadCustomers button action
     private void loadCustomers() {
         try {
@@ -197,5 +217,25 @@ public class Controller {
         }
     }
 
-    
+    // Handle the action for removing a customer
+    private void removeCustomer() {
+        try {
+            String customerId = view.getRemovecustomer().getText().trim();
+
+            if (customerId.isEmpty()) {
+                JOptionPane.showMessageDialog(view.getFrame(), "Customer ID cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            boolean isRemoved = manager.removeCustomer(customerId); // Call Manager's removeCustomer method
+
+            if (isRemoved) {
+                JOptionPane.showMessageDialog(view.getFrame(), "Customer removed successfully!");
+            } else {
+                JOptionPane.showMessageDialog(view.getFrame(), "Customer ID not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(view.getFrame(), "An error occurred while removing the customer.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }

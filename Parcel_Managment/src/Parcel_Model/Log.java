@@ -29,7 +29,15 @@ public class Log {
         return log.toString();
     }
  
-
+ // Remove this method if not needed
+    public void logToFile(String filename, String logMessage) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
+            writer.write("ProcessedParcel: " + logMessage); // Add identifier
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Error logging to file: " + e.getMessage());
+        }
+    }
 
 
 }

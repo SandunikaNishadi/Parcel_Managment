@@ -100,6 +100,51 @@ public class Manager {
         return customers;
     }
 
+ // Method to remove customer by customerId
+    public boolean removeCustomer(String customerId) throws IOException {
+        // Remove the customer from the list of customers
+        List<String> customers = loadCustomers("customer.txt");
+        boolean removed = false;
+
+        for (int i = 0; i < customers.size(); i++) {
+            String customer = customers.get(i);
+            if (customer.startsWith(customerId)) { // Assuming the customerId is the first part of the line
+                customers.remove(i); // Remove customer from the list
+                removed = true;
+                break;
+            }
+        }
+
+        if (removed) {
+            // Rewrite the customer.txt file without the removed customer
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("customer.txt"))) {
+                for (String customer : customers) {
+                    writer.write(customer);  // Write remaining customers to file
+                    writer.newLine();
+                }
+                // Log the removal action
+                logAction("log.txt", customerId);
+                JOptionPane.showMessageDialog(view.getFrame(), "Customer with ID " + customerId + " removed successfully");
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(view.getFrame(), "Error saving changes to customer file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // If the customer was not found
+            JOptionPane.showMessageDialog(view.getFrame(), "Customer ID not found", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return removed;
+    }
+
+    // Method to log the customer removal action
+    public static void logAction(String logFile, String customerId) {
+        try (BufferedWriter logWriter = new BufferedWriter(new FileWriter(logFile, true))) {
+            // Log the removal action with the customer ID and timestamp
+            logWriter.write("Customer ID " + customerId + " removed at " + System.currentTimeMillis());
+            logWriter.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
 
     // Add customer to the system and save to both customer.txt and log.txt
