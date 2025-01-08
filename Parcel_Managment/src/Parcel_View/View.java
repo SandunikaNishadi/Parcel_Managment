@@ -27,7 +27,11 @@ public class View {
     private JButton addCustomerButton;
     private JButton addParcelButton;
     private JButton loadParcelsButton; // Declare the button
+    private JButton ProcessButton;
+    private JTextField ParcelIdfield;
+    
     private JButton loadCustomersButton;
+    private JButton processedParcelsButton;
     
     public View() {
         // Initialize JFrame
@@ -35,7 +39,7 @@ public class View {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
         frame.setLayout(new BorderLayout());
-        
+        frame.getContentPane().setBackground(Color.decode("#DEAA79"));
 
         // Panel for customer form
         JPanel customerPanel = new JPanel(new GridLayout(5, 2));
@@ -82,6 +86,8 @@ public class View {
         daysInDepotField = new JTextField();
         parcelPanel.add(daysInDepotField);
 
+       
+
         
 
         // Buttons
@@ -102,6 +108,13 @@ public class View {
         loadCustomersButton.setBackground(Color.darkGray);
         loadCustomersButton.setForeground(Color.WHITE);
 
+        ProcessButton = new JButton("Process Parcel");
+        
+        
+
+        processedParcelsButton = new JButton("Processed Parcels");
+        
+
         
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
@@ -109,7 +122,8 @@ public class View {
         buttonPanel.add(addParcelButton);
         buttonPanel.add(loadParcelsButton);
         buttonPanel.add(loadCustomersButton);
-        
+        buttonPanel.add(ProcessButton);
+        buttonPanel.add(processedParcelsButton);
 
         // JList to display parcels
         parcelList = new JList<>();
@@ -136,10 +150,10 @@ public class View {
     public JTextField getCustomerIdField() {
         return customerIdField;
     }
-    
-    public JTextField getParcelIdCustomerField() {
-        return parcelIdCustomerField;
+    public JButton getProcessedParcelsButton() {
+        return processedParcelsButton;
     }
+    
 
     public JButton getAddCustomerButton() {
         return addCustomerButton;
@@ -170,11 +184,12 @@ public class View {
     }
 
    
-
     public JButton getAddParcelButton() {
         return addParcelButton;
     }
-    
+    public JTextField getParcelIdField() {
+        return ParcelIdfield;
+    }
 
     public JButton getLoadCustomersButton() {
         return loadCustomersButton;
@@ -182,6 +197,10 @@ public class View {
 
     public JButton getLoadParcelsButton() {
         return loadParcelsButton;
+    }
+
+    public JButton getProcessButton() {
+        return ProcessButton;
     }
 
     
@@ -204,7 +223,14 @@ public class View {
         customerList.setModel(listModel);
     }
 
-    
+    // Method to set the data for the JList (process data)
+    public void setProcessListData(List<String> processparcels) {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (String processparcel : processparcels) {
+            listModel.addElement(processparcel);
+        }
+        parcelList.setModel(listModel);
+    }
 
     // Method to get the frame (for passing to Manager)
     public JFrame getFrame() {

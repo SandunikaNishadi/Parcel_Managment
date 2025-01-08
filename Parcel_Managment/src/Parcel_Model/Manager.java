@@ -1,5 +1,7 @@
 package Parcel_Model;
 
+
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -99,7 +101,6 @@ public class Manager {
     }
 
     
-    
 
     // Add customer to the system and save to both customer.txt and log.txt
     public void addCustomer(String customerId, String firstName, String lastName, String parcelId) {
@@ -114,7 +115,7 @@ public class Manager {
 
         // Display message and clear input fields
         JOptionPane.showMessageDialog(view.getFrame(), "Customer Added: " + firstName + " " + lastName);
-        view.clearInputFields();
+        View.clearInputFields();
     }
 
     // Add parcel to the system and save to file
@@ -169,8 +170,37 @@ public class Manager {
     }
 
     
+    public Parcel processParcel(int parcelId) throws IOException {
+        List<Parcel> parcels = loadParcels1("parcel.txt");
+        Parcel processedParcel = null;
+
+        for (int i = 0; i < parcels.size(); i++) {
+            if (parcels.get(i).getParcelId() == parcelId) {
+                processedParcel = parcels.remove(i);
+                break;
+            }
+        }
+
+        if (processedParcel != null) {
+            // Save remaining parcels back to parcel.txt
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("parcel.txt"))) {
+                for (Parcel parcel : parcels) {
+                    writer.write(parcel.getParcelId() + " " + parcel.getWeight() + " " + parcel.getLength() + " "
+                            + parcel.getWidth() + " " + parcel.getHeight() + " " + parcel.getDaysInDepot());
+                    writer.newLine();
+                }
+            }
+
+            // Log processed parcel with identifier
+            Log.getInstance().logToFile("log.txt", processedParcel.toString());
+        }
+
+        return processedParcel;
+    }
     
     
+    
+
     public static void main(String[] args) {
         // Initialize the view (GUI)
         View view = new View();
