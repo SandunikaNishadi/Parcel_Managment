@@ -1,0 +1,18 @@
+ProcessedParcel: AddedParcel: Parcel ID: 1, Weight: 23.0, Dimensions: 55.0x36.0x59.0, Days in Depot: 1
+ProcessedParcel: AddedParcel: Parcel ID: 2, Weight: 13.0, Dimensions: 55.0x36.0x59.0, Days in Depot: 1
+ProcessedParcel: AddedParcel: Parcel ID: 3, Weight: 13.0, Dimensions: 55.0x39.0x59.0, Days in Depot: 1
+Added customer - P001 sali aliw 1
+Added customer - P002 nilu min 2
+Added customer - P003 sasi minagi 3
+ProcessedParcel: AddedParcel: Parcel ID: 4, Weight: 13.0, Dimensions: 5.0x39.0x59.0, Days in Depot: 1
+Customer ID P002 removed at 1736325629449
+ProcessedParcel: Parcel ID: 4, Weight: 13.0, Dimensions: 5.0x39.0x59.0, Days in Depot: 1
+ProcessedParcel: AddedParcel: Parcel ID: 6, Weight: 13.0, Dimensions: 8.0x39.0x59.0, Days in Depot: 1
+Added customer - P007 sali ski 7
+ProcessedParcel: AddedParcel: Parcel ID: 7, Weight: 50.0, Dimensions: 33.0x61.0x12.0, Days in Depot: 5
+ProcessedParcel: Parcel ID: 7, Weight: 50.0, Dimensions: 33.0x61.0x12.0, Days in Depot: 5
+Customer ID P007 removed at 1736327070079
+Added customer - P004 sdf nim 9
+Added customer - P004 jank din 6
+Added customer - P006 sali bim 6
+ProcessedParcel: AddedParcel: Parcel ID: 4, Weight: 50.0, Dimensions: 3.0x61.0x12.0, Days in Depot: 5

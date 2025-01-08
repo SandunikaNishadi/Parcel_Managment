@@ -156,14 +156,23 @@ public class Controller {
             }
 
             int parcelId = Integer.parseInt(parcelIdStr);
-            Parcel processedParcel = manager.processParcel(parcelId);
 
+            // Process the parcel and log it
+            Parcel processedParcel = manager.processParcel(parcelId);
             if (processedParcel == null) {
-                JOptionPane.showMessageDialog(view.getFrame(), "Parcel ID not found.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(view.getFrame(), "Parcel ID not found in parcel.txt.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 double fee = processedParcel.getWeight() * 1;
                 JOptionPane.showMessageDialog(view.getFrame(),
                         "Processed Parcel:\n" + processedParcel.toString() + "\nFee: $" + fee);
+
+                // Fetch processed parcel details from log.txt
+                String processedDetails = manager.getProcessedParcelDetails(parcelId, "log.txt");
+                if (processedDetails != null) {
+                    view.setParcelListData(List.of(processedDetails)); // Display only the relevant details
+                } else {
+                    JOptionPane.showMessageDialog(view.getFrame(), "Error retrieving processed parcel details.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(view.getFrame(), "Invalid Parcel ID. Please enter a numeric value.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -175,16 +184,17 @@ public class Controller {
     // Method to display all processed parcels
     private void showProcessedParcels() {
         try {
-            List<String> processedParcels = manager.loadProcessedParcels("log.txt");
+            List<String> processedParcels = manager.loadProcessedParcels("log.txt"); // Fetch only processed parcels
             if (processedParcels.isEmpty()) {
                 JOptionPane.showMessageDialog(view.getFrame(), "No processed parcels to display.", "Info", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                view.setParcelListData(processedParcels); // Display filtered processed parcels
+                view.setParcelListData(processedParcels); // Display the filtered list
             }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(view.getFrame(), "Error loading processed parcels: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
     // Method to display all processed parcels
 
 

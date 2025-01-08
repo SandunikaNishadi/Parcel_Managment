@@ -1,8 +1,10 @@
 package Parcel_View;
 
 
-import javax.swing.*;
 
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import Parcel_Model.Customer;
 
 import java.awt.*;
@@ -33,68 +35,82 @@ public class View {
     private JButton loadCustomersButton;
     private JButton processedParcelsButton;
     private JButton sortByDaysInDepotButton;
+
     public View() {
         // Initialize JFrame
         frame = new JFrame("Parcel Management System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        frame.setSize(600, 400);
         frame.setLayout(new BorderLayout());
         frame.getContentPane().setBackground(Color.decode("#DEAA79"));
 
         // Panel for customer form
-        JPanel customerPanel = new JPanel(new GridLayout(5, 2));
+        JPanel customerPanel = new JPanel(new GridLayout(6, 2, 5, 5)); // (horizontal, vertical spacing)
+        customerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));  // Adds padding around the panel
         customerPanel.add(new JLabel("First Name:"));
         firstNameField = new JTextField();
+        firstNameField.setBorder(new EmptyBorder(5, 5, 5, 5));
         customerPanel.add(firstNameField);
 
         customerPanel.add(new JLabel("Last Name:"));
         lastNameField = new JTextField();
+        lastNameField.setBorder(new EmptyBorder(5, 5, 5, 5));
         customerPanel.add(lastNameField);
 
         customerPanel.add(new JLabel("Customer ID:"));
         customerIdField = new JTextField();
+        customerIdField.setBorder(new EmptyBorder(5, 5, 5, 5));
         customerPanel.add(customerIdField);
 
         customerPanel.add(new JLabel("Parcel ID (Customer):"));
         parcelIdCustomerField = new JTextField();
+        parcelIdCustomerField.setBorder(new EmptyBorder(5, 5, 5, 5));
         customerPanel.add(parcelIdCustomerField);
 
         // Panel for parcel form
-        JPanel parcelPanel = new JPanel(new GridLayout(8, 1));
-        
+        JPanel parcelPanel = new JPanel(new GridLayout(8, 1, 5, 5));  // 5px horizontal and vertical space between components
+        parcelPanel.setBorder(new EmptyBorder(10, 10, 10, 10));  // Padding around parcel panel
+
         parcelPanel.add(new JLabel("Parcel ID:"));
         parcelIdParcelField = new JTextField();
+        parcelIdParcelField.setBorder(new EmptyBorder(5, 5, 5, 5));
         parcelPanel.add(parcelIdParcelField);
 
         parcelPanel.add(new JLabel("Weight:"));
         weightField = new JTextField();
+        weightField.setBorder(new EmptyBorder(5, 5, 5, 5));
         parcelPanel.add(weightField);
 
         parcelPanel.add(new JLabel("Length:"));
         lengthField = new JTextField();
+        lengthField.setBorder(new EmptyBorder(5, 5, 5, 5));
         parcelPanel.add(lengthField);
 
         parcelPanel.add(new JLabel("Width:"));
         widthField = new JTextField();
+        widthField.setBorder(new EmptyBorder(5, 5, 5, 5));
         parcelPanel.add(widthField);
 
         parcelPanel.add(new JLabel("Height:"));
         heightField = new JTextField();
+        heightField.setBorder(new EmptyBorder(5, 5, 5, 5));
         parcelPanel.add(heightField);
 
         parcelPanel.add(new JLabel("Days in Depot:"));
         daysInDepotField = new JTextField();
+        daysInDepotField.setBorder(new EmptyBorder(5, 5, 5, 5));
         parcelPanel.add(daysInDepotField);
 
-        parcelPanel.add(new JLabel("To process Parcel Enter parcel ID:"));
+        parcelPanel.add(new JLabel("Enter Parcel ID To Process Parcel :"));
         ParcelIdfield = new JTextField();
+        ParcelIdfield.setBorder(new EmptyBorder(5, 5, 5, 5));
         parcelPanel.add(ParcelIdfield);
 
-        parcelPanel.add(new JLabel("Enter ID to remove customer:"));
+        parcelPanel.add(new JLabel("Enter Customer ID to remove customer:"));
         removecustomer = new JTextField();
+        removecustomer.setBorder(new EmptyBorder(5, 5, 5, 5));
         parcelPanel.add(removecustomer);
 
-        // Buttons
         // Buttons
         addCustomerButton = new JButton("Add Customer");
         addCustomerButton.setBackground(Color.darkGray);
@@ -127,8 +143,10 @@ public class View {
         sortByDaysInDepotButton = new JButton("Sort by Days in Depot");
         sortByDaysInDepotButton.setBackground(Color.decode("#4DA1A9"));
         sortByDaysInDepotButton.setForeground(Color.WHITE);
+
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));  // Padding around the button panel
         buttonPanel.add(addCustomerButton);
         buttonPanel.add(addParcelButton);
         buttonPanel.add(loadParcelsButton);
@@ -139,9 +157,15 @@ public class View {
         buttonPanel.add(sortByDaysInDepotButton);
 
         // JList to display parcels
+       // parcelList = new JList<>();
+        //JScrollPane parcelListScrollPane = new JScrollPane(parcelList);
         parcelList = new JList<>();
         JScrollPane parcelListScrollPane = new JScrollPane(parcelList);
+        parcelList.setBackground(Color.decode("#CDC1FF")); // Set background color for the JList
 
+        parcelListScrollPane.setPreferredSize(new Dimension(500, 0));
+
+        
         // Add panels to frame
         frame.add(customerPanel, BorderLayout.NORTH);
         frame.add(parcelPanel, BorderLayout.CENTER);
@@ -265,12 +289,5 @@ public class View {
         lastNameField.setText("");
         customerIdField.setText("");
         parcelIdCustomerField.setText(""); // Clear customer Parcel ID
-        parcelIdParcelField.setText("");  // Clear parcel Parcel ID
-        weightField.setText("");
-        lengthField.setText("");
-        widthField.setText("");
-        heightField.setText("");
-        daysInDepotField.setText("");
-    }
-
-}
+        parcelIdParcelField.setText("");
+}}

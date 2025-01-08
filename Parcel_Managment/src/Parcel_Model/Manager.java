@@ -11,9 +11,7 @@ import javax.swing.*;
 import Parcel_Controller.Controller;
 import Parcel_View.View;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -29,10 +27,55 @@ public class Manager {
     // Constructor to initialize View
     public Manager(View view) throws IOException {
         this.view = view;
-        
         this.parcels = loadParcels("parcel.txt"); // Load parcels from file
     }
 
+    // Add customer to the system and save to both customer.txt and log.txt
+    public void addCustomer(String customerId, String firstName, String lastName, String parcelId) {
+        // Create a new Customer object
+        Customer customer = new Customer(customerId, firstName, lastName, parcelId);
+
+        // Save customer data to customer.txt in the format: firstName lastName customerId
+        saveToFile("customer.txt", customerId + " " + firstName + " " + lastName + " " + parcelId);
+
+        // Log customer addition to log.txt (without timestamp)
+        logToFile1("log.txt", "Added customer - " + customerId + " " + firstName + " " + lastName + " " + parcelId);
+
+        // Display message and clear input fields
+        JOptionPane.showMessageDialog(view.getFrame(), "Customer Added: " + firstName + " " + lastName);
+        view.clearInputFields();
+    }
+
+    // Add parcel to the system and save to file
+    public void addParcel(int parcelId, double weight, double length, double width, double height, int daysInDepot) {
+        Parcel parcel = new Parcel(parcelId, weight, length, width, height, daysInDepot);
+        saveToFile("parcel.txt", parcelId + " " + weight + " " + length + " " + width + " " + height + " " + daysInDepot);
+
+        // Log the added parcel with identifier
+        Log.getInstance().logToFile("log.txt", "AddedParcel: " + parcel.toString());
+    }
+
+
+    // Save data to a text file (e.g., customer.txt, parcel.txt) in the format specified
+    private void saveToFile(String filename, String content) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
+            writer.write(content);  // Write content to file
+            writer.newLine();       // Add newline for each entry
+        } catch (IOException e) {
+            System.err.println("Error saving to file: " + e.getMessage());
+        }
+    }
+
+    // Log customer and parcel addition details to the log.txt file (without timestamp)
+    private void logToFile1(String filename, String logMessage) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
+            writer.write(logMessage);  // Write log message
+            writer.newLine();  // Add newline for each log entry
+        } catch (IOException e) {
+            System.err.println("Error logging to file: " + e.getMessage());
+        }
+    }
+    
     // Load parcels from the parcel.txt file and return them as a List of strings
     public List<String> loadParcels(String filename) throws IOException {
         List<String> parcels = new ArrayList<>();
@@ -146,51 +189,7 @@ public class Manager {
         }
     }
 
-    // Add customer to the system and save to both customer.txt and log.txt
-    public void addCustomer(String customerId, String firstName, String lastName, String parcelId) {
-        // Create a new Customer object
-        Customer customer = new Customer(customerId, firstName, lastName, parcelId);
-
-        // Save customer data to customer.txt in the format: firstName lastName customerId
-        saveToFile("customer.txt", customerId + " " + firstName + " " + lastName + " " + parcelId);
-
-        // Log customer addition to log.txt (without timestamp)
-        logToFile1("log.txt", "Added customer - " + customerId + " " + firstName + " " + lastName + " " + parcelId);
-
-        // Display message and clear input fields
-        JOptionPane.showMessageDialog(view.getFrame(), "Customer Added: " + firstName + " " + lastName);
-        view.clearInputFields();
-    }
-
-    // Add parcel to the system and save to file
-    public void addParcel(int parcelId, double weight, double length, double width, double height, int daysInDepot) {
-        Parcel parcel = new Parcel(parcelId, weight, length, width, height, daysInDepot);
-        saveToFile("parcel.txt", parcelId + " " + weight + " " + length + " " + width + " " + height + " " + daysInDepot);
-
-        // Log the event
-        Log.getInstance().logToFile("log.txt", "Added parcel - ID: " + parcelId);
-    }
-
-
-    // Save data to a text file (e.g., customer.txt, parcel.txt) in the format specified
-    private void saveToFile(String filename, String content) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
-            writer.write(content);  // Write content to file
-            writer.newLine();       // Add newline for each entry
-        } catch (IOException e) {
-            System.err.println("Error saving to file: " + e.getMessage());
-        }
-    }
-
-    // Log customer and parcel addition details to the log.txt file (without timestamp)
-    private void logToFile1(String filename, String logMessage) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
-            writer.write(logMessage);  // Write log message
-            writer.newLine();  // Add newline for each log entry
-        } catch (IOException e) {
-            System.err.println("Error logging to file: " + e.getMessage());
-        }
-    }
+   
 
     // Load parcels from parcel.txt file and convert each line to a Parcel object
     public List<Parcel> loadParcels1(String filename) throws IOException {
@@ -213,7 +212,20 @@ public class Manager {
         return parcels;
     }
 
-    
+    public String getProcessedParcelDetails(int parcelId, String logFile) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("ProcessedParcel:")) {
+                    String parcelDetails = line.replace("ProcessedParcel: ", "").trim();
+                    if (parcelDetails.contains("Parcel ID: " + parcelId + ",")) {
+                        return parcelDetails; // Return the matching parcel details
+                    }
+                }
+            }
+        }
+        return null; // Return null if no matching parcel is found
+    }
     public Parcel processParcel(int parcelId) throws IOException {
         List<Parcel> parcels = loadParcels1("parcel.txt");
         Parcel processedParcel = null;
@@ -246,13 +258,14 @@ public class Manager {
         try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.startsWith("ProcessedParcel:")) { // Only include relevant entries
-                    processedParcels.add(line.replace("ProcessedParcel: ", "")); // Remove the identifier
+                if (line.startsWith("ProcessedParcel:")) { // Include only processed parcels
+                    processedParcels.add(line.replace("ProcessedParcel: ", "").trim()); // Remove the prefix
                 }
             }
         }
         return processedParcels;
     }
+    
     public List<Parcel> getParcelsSortedByDaysInDepot(String filename) throws IOException {
         List<Parcel> parcels = loadParcels1(filename); // Load parcels from parcel.txt
         parcels.sort(Comparator.comparingInt(Parcel::getDaysInDepot).reversed()); // Sort by days in depot, descending

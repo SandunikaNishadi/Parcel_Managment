@@ -1,0 +1,5 @@
+P001 sali aliw 1
+P003 sasi minagi 3
+P004 sdf nim 9
+P004 jank din 6
+P006 sali bim 6
