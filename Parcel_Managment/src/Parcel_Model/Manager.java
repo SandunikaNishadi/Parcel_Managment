@@ -100,7 +100,7 @@ public class Manager {
         return customers;
     }
 
- // Method to remove customer by customerId
+    // Method to remove customer by customerId
     public boolean removeCustomer(String customerId) throws IOException {
         // Remove the customer from the list of customers
         List<String> customers = loadCustomers("customer.txt");
@@ -145,7 +145,6 @@ public class Manager {
             e.printStackTrace();
         }
     }
-    
 
     // Add customer to the system and save to both customer.txt and log.txt
     public void addCustomer(String customerId, String firstName, String lastName, String parcelId) {
@@ -160,7 +159,7 @@ public class Manager {
 
         // Display message and clear input fields
         JOptionPane.showMessageDialog(view.getFrame(), "Customer Added: " + firstName + " " + lastName);
-        View.clearInputFields();
+        view.clearInputFields();
     }
 
     // Add parcel to the system and save to file
@@ -242,9 +241,36 @@ public class Manager {
 
         return processedParcel;
     }
-    
-    
-    
+    public List<String> loadProcessedParcels(String logFile) throws IOException {
+        List<String> processedParcels = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("ProcessedParcel:")) { // Only include relevant entries
+                    processedParcels.add(line.replace("ProcessedParcel: ", "")); // Remove the identifier
+                }
+            }
+        }
+        return processedParcels;
+    }
+    public List<Parcel> getParcelsSortedByDaysInDepot(String filename) throws IOException {
+        List<Parcel> parcels = loadParcels1(filename); // Load parcels from parcel.txt
+        parcels.sort(Comparator.comparingInt(Parcel::getDaysInDepot).reversed()); // Sort by days in depot, descending
+        return parcels;
+    }
+    public double calculateFee(int parcelId) {
+        try {
+            List<Parcel> parcels = loadParcels1("parcel.txt"); // Load parcels from file
+            for (Parcel parcel : parcels) {
+                if (parcel.getParcelId() == parcelId) { // Match the parcel ID
+                    return parcel.getWeight() * 1; // Fee = weight * 1
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error loading parcels: " + e.getMessage());
+        }
+        return -1; // Return -1 if the parcel is not found
+    }
 
     public static void main(String[] args) {
         // Initialize the view (GUI)

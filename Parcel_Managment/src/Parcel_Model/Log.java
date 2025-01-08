@@ -28,7 +28,6 @@ public class Log {
     public String getLog() {
         return log.toString();
     }
- 
  // Remove this method if not needed
     public void logToFile(String filename, String logMessage) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
@@ -38,6 +37,7 @@ public class Log {
             System.err.println("Error logging to file: " + e.getMessage());
         }
     }
+
 
 
 }

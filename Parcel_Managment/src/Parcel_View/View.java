@@ -1,7 +1,6 @@
 package Parcel_View;
 
 
-
 import javax.swing.*;
 
 import Parcel_Model.Customer;
@@ -33,7 +32,7 @@ public class View {
     private JButton removecustomerButton;
     private JButton loadCustomersButton;
     private JButton processedParcelsButton;
-    
+    private JButton sortByDaysInDepotButton;
     public View() {
         // Initialize JFrame
         frame = new JFrame("Parcel Management System");
@@ -95,8 +94,6 @@ public class View {
         removecustomer = new JTextField();
         parcelPanel.add(removecustomer);
 
-        
-
         // Buttons
         // Buttons
         addCustomerButton = new JButton("Add Customer");
@@ -116,13 +113,20 @@ public class View {
         loadCustomersButton.setForeground(Color.WHITE);
 
         ProcessButton = new JButton("Process Parcel");
-        
-        
+        ProcessButton.setBackground(Color.darkGray);
+        ProcessButton.setForeground(Color.WHITE);
+
+        removecustomerButton = new JButton("Remove Customer");
+        removecustomerButton.setBackground(Color.decode("#FF4545"));
+        removecustomerButton.setForeground(Color.WHITE);
 
         processedParcelsButton = new JButton("Processed Parcels");
-        
+        processedParcelsButton.setBackground(Color.decode("#809D3C"));
+        processedParcelsButton.setForeground(Color.WHITE);
 
-        
+        sortByDaysInDepotButton = new JButton("Sort by Days in Depot");
+        sortByDaysInDepotButton.setBackground(Color.decode("#4DA1A9"));
+        sortByDaysInDepotButton.setForeground(Color.WHITE);
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addCustomerButton);
@@ -130,7 +134,9 @@ public class View {
         buttonPanel.add(loadParcelsButton);
         buttonPanel.add(loadCustomersButton);
         buttonPanel.add(ProcessButton);
+        buttonPanel.add(removecustomerButton);
         buttonPanel.add(processedParcelsButton);
+        buttonPanel.add(sortByDaysInDepotButton);
 
         // JList to display parcels
         parcelList = new JList<>();
@@ -153,7 +159,9 @@ public class View {
     public JTextField getLastNameField() {
         return lastNameField;
     }
-    
+    public JButton getSortByDaysInDepotButton() {
+        return sortByDaysInDepotButton;
+    }
     public JTextField getCustomerIdField() {
         return customerIdField;
     }
@@ -264,4 +272,5 @@ public class View {
         heightField.setText("");
         daysInDepotField.setText("");
     }
+
 }

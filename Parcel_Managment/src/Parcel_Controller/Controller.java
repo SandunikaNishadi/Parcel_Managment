@@ -1,7 +1,7 @@
 package Parcel_Controller;
-
-
-
+import Parcel_Model.Manager;
+import Parcel_Model.Parcel;
+import Parcel_View.View;
 
 
 import java.awt.event.ActionEvent;
@@ -10,9 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-
-import Parcel_Model.Manager;
-import Parcel_View.View;
 
 public class Controller {
     private View view;
